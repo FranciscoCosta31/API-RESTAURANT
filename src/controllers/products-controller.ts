@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express"
+import { knex } from "@/database/knex"
 import { z } from "zod"
 
 class ProductsController {
@@ -17,7 +18,9 @@ class ProductsController {
       })
       const { name, price } = bodyschema.parse(request.body)
 
-      return response.status(201).json({ name, price })
+      await knex<ProductRepository>("products").insert({name, price})
+
+      return response.status(201).json()
     } catch (error) {
       next(error)
     }
