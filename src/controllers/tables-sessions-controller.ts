@@ -20,7 +20,6 @@ class TablesSessionsController {
       if (session && !session.closed_at)
         throw new AppError("this table is already open.")
 
-      return response.json(session)
       await knex<TablesSessionsRepository>("tables_sessions").insert({
         table_id,
         opened_at: knex.fn.now(),
