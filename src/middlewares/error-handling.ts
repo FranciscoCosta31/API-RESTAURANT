@@ -16,5 +16,5 @@ export function errorHandling(
       .status(400)
       .json({ message: "validation error ", issues: error.format() })
   }
-  return response.status(500).json({ message: error.massage })
+  return response.status(500).json({ message: error.message })
 }

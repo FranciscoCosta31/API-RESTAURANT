@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { AppError } from "@/utils/AppError"
 import { z } from "zod"
 import { knex } from "../database/knex"
@@ -27,6 +27,16 @@ class TablesSessionsController {
       })
 
       return response.status(201).json()
+    } catch (error) {
+      next(error)
+    }
+  }
+  async index(request: Request, response: Response, next: NextFunction) {
+    try {
+      const sessions = await knex<TablesSessionsRepository>(
+        "tables_sessions"
+      ).orderBy("closed_at")
+      return response.json(sessions)
     } catch (error) {
       next(error)
     }
